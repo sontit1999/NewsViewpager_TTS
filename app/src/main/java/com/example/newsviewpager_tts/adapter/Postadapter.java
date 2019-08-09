@@ -36,17 +36,7 @@ public class Postadapter extends RecyclerView.Adapter<Postadapter.myviewhoder> {
 
     @Override
     public void onBindViewHolder(@NonNull myviewhoder myviewhoder, int i) {
-              final Post post = arrayList.get(i);
-              Glide.with(context).load(post.getLinkthumbail()).into(myviewhoder.img);
-              myviewhoder.txttittle.setText(post.getTittle());
-              myviewhoder.txttimeandfrom.setText(post.getFromnew()+" - "+post.getTimepost());
-
-              myviewhoder.containerpost.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      listener.onClickitem(post);
-                  }
-              });
+              bind(myviewhoder,i);
     }
 
     @Override
@@ -68,5 +58,18 @@ public class Postadapter extends RecyclerView.Adapter<Postadapter.myviewhoder> {
     }
     public interface Postlistener{
         void onClickitem(Post post);
+    }
+    public void bind(myviewhoder myviewhoder,int i){
+        final Post post = arrayList.get(i);
+        Glide.with(context).load(post.getLinkthumbail()).into(myviewhoder.img);
+        myviewhoder.txttittle.setText(post.getTittle());
+        myviewhoder.txttimeandfrom.setText(post.getFromnew()+" - "+post.getTimepost());
+
+        myviewhoder.containerpost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClickitem(post);
+            }
+        });
     }
 }
