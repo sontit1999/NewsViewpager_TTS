@@ -35,7 +35,6 @@ public class PostSaveActivity extends AppCompatActivity implements Postadapter.P
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
         initview();
-        initActionbar();
         initdata();
         setuprecyclerview();
     }
@@ -50,6 +49,7 @@ public class PostSaveActivity extends AppCompatActivity implements Postadapter.P
     private void initview() {
         arrayList = new ArrayList<>();
         adapter = new Postadapter(this,arrayList,this);
+        initActionbar();
     }
 
     @Override

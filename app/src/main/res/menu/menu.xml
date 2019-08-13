@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-         <item
-             android:icon="@drawable/seen"
-             android:id="@+id/menu_seen"
-             android:title="Tin đã đọc "
-             ></item>
      <item
          android:icon="@drawable/heart"
          android:id="@+id/menu_save"
-        android:title="Tin đã lưu "
+        android:title="Realm"
         ></item>
 </menu>

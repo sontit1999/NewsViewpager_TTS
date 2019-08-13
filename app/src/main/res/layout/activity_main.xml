@@ -6,12 +6,8 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:title="Sơn Tít"
-        android:background="#00BCD4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar">
+    </include>
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"

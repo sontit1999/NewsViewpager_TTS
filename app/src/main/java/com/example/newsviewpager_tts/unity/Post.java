@@ -1,12 +1,15 @@
 package com.example.newsviewpager_tts.unity;
 
-public class Post {
+import io.realm.RealmObject;
+
+public class Post extends RealmObject {
     private int id;
     private String linkthumbail;
     private String linkpost;
     private String tittle;
     private String fromnew;
     private String timepost;
+    private String type;
 
     public Post() {
     }
@@ -25,6 +28,14 @@ public class Post {
         this.tittle = tittle;
         this.fromnew = fromnew;
         this.timepost = timepost;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLinkpost() {
