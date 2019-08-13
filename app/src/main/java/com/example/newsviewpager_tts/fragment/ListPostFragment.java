@@ -186,7 +186,6 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
                 Toast.makeText(getActivity(), "Đã cập nhật ! ahihi ^^", Toast.LENGTH_SHORT).show();
                 swl.setRefreshing(false);
                 RealmResults<Post> kq = realm.where(Post.class).findAll();
-                Log.d("size",kq.size()+"");
             }
         });
     }
