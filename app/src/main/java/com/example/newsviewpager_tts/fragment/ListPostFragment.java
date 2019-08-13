@@ -1,6 +1,7 @@
 package com.example.newsviewpager_tts.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.newsviewpager_tts.DetailActivity;
 import com.example.newsviewpager_tts.R;
 import com.example.newsviewpager_tts.adapter.Postadapter;
 import com.example.newsviewpager_tts.unity.Post;
@@ -42,6 +44,8 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ListPostFragment extends Fragment implements Postadapter.Postlistener {
     @BindView(R.id.progress) ProgressBar progressBar;
@@ -51,7 +55,7 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
     SwipeRefreshLayout swl;
     String link;
     Postadapter adapter;
-
+    Realm realm;
     public ListPostFragment() {
     }
 
@@ -65,9 +69,9 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listpost,container,false);
         anhxa(view);
-        init();
-        initRecyclerview();
-        sukienswipe();
+        realm = Realm.getDefaultInstance();
+        initview();
+        initdata();
         return view;
     }
 
@@ -85,9 +89,11 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
         });
     }
 
-    private void init() {
+    private void initview() {
         arrayListPost = new ArrayList<>();
         adapter = new Postadapter(getContext(),arrayListPost,this);
+        initRecyclerview();
+        sukienswipe();
 
     }
     // setup recyclerview
@@ -148,6 +154,7 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
 
                 }
                 adapter.notifyDataSetChanged();
+                addpost();
             }
         },
                 new Response.ErrorListener() {
@@ -159,6 +166,17 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
         );
         requestQueue.add(stringRequest);
     }
+    // add post to Realm database
+    private void addpost() {
+        realm.beginTransaction();
+        RealmResults<Post> realmResults = realm.where(Post.class).findAll();
+        realmResults.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.beginTransaction();
+        realm.insert(arrayListPost);
+        realm.commitTransaction();
+    }
+
     // bắt sự kiện swipe
     public void sukienswipe()
     {
@@ -167,18 +185,16 @@ public class ListPostFragment extends Fragment implements Postadapter.Postlisten
             public void onRefresh() {
                 Toast.makeText(getActivity(), "Đã cập nhật ! ahihi ^^", Toast.LENGTH_SHORT).show();
                 swl.setRefreshing(false);
+                RealmResults<Post> kq = realm.where(Post.class).findAll();
+                Log.d("size",kq.size()+"");
             }
         });
     }
 
     @Override
     public void onClickitem(Post post) {
-        Toast.makeText(getActivity(), "Fragment đã nhận dc", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initdata();
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("link",post.getLinkpost());
+        startActivity(intent);
     }
 }
